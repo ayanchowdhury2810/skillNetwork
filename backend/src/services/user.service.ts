@@ -4,8 +4,7 @@ import { randomUUID } from "crypto";
 export const createUser = async (name: string) => {
   const id = randomUUID();
 
-  const query = `
-      CREATE (u:User {
+  const query = `\n      CREATE (u:User {
           id: $id,
           name: $name
       })
@@ -20,4 +19,12 @@ export const createUser = async (name: string) => {
   });
 
   return result;
+};
+
+export const getAllUsers = async () => {
+  return graph.query(`\n    MATCH (u:User)\n    RETURN u\n  `);
+};
+
+export const getUserById = async (id: string) => {
+  return graph.query(`\n    MATCH (u:User {id:$id})\n    RETURN u\n  `, { params: { id } });
 };

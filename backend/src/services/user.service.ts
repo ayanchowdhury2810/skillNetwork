@@ -26,5 +26,5 @@ export const getAllUsers = async () => {
 };
 
 export const getUserById = async (id: string) => {
-  return graph.query(`\n    MATCH (u:User {id:$id})\n    RETURN u\n  `, { params: { id } });
+  return graph.query(`\n    MATCH (u:User) WHERE u.id = $id\n    RETURN u\n  `, { params: { id } });
 };

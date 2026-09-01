@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { getRecommendedJobs } from "../controllers/recommendation.controller.js";
+import { getRecommendedJobs } from "./recommendations.controller.js";
 import {
   authenticate,
   authorize,
-} from "../middleware/auth.middleware.js";
+} from "../../middleware/auth.middleware.js";
 
 const router = Router();
 

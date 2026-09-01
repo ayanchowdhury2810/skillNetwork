@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import * as skillService from "../services/skill.service.js";
+import * as skillService from "./skills.service.js";
 
 export const addSkill = async (req: Request, res: Response) => {
   try {

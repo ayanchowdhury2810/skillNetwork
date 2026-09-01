@@ -1,4 +1,4 @@
-import { graph } from "../config/falkordb.js";
+import { graph } from "../../config/falkordb.js";
 
 export const addSkillToUser = async (
   userId: string,

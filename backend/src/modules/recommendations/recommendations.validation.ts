@@ -1,4 +1,4 @@
-import type { PaginationParams } from "./recommendation.types.js";
+import type { PaginationParams } from "./recommendations.types.js";
 
 export interface ValidationError {
   field: string;

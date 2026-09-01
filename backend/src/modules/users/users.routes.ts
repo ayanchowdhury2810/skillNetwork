@@ -1,6 +1,6 @@
 import { Router } from "express";
-import * as userController from "../controllers/user.controller.js";
-import * as skillController from "../controllers/skill.controller.js";
+import * as userController from "./users.controller.js";
+import * as skillController from "../skills/skills.controller.js";
 
 const router = Router();
 

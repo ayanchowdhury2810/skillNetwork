@@ -3,8 +3,8 @@ import type {
   CandidateProfile,
   Job,
   ScoreBreakdown,
-} from "../recommendation.types.js";
-import * as repository from "./recommendation.repository.js";
+} from "./recommendations.types.js";
+import * as repository from "./recommendations.repository.js";
 
 const MAX_SKILL_SCORE = 60;
 const MAX_EXPERIENCE_SCORE = 25;

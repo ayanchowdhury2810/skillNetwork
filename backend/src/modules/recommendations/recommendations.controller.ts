@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import * as recommendationService from "../services/recommendation.service.js";
-import { validatePagination } from "../recommendation.validation.js";
-import type { RecommendationResponse } from "../recommendation.types.js";
+import * as recommendationService from "./recommendations.service.js";
+import { validatePagination } from "./recommendations.validation.js";
+import type { RecommendationResponse } from "./recommendations.types.js";
 
 export const getRecommendedJobs = async (
   req: Request,

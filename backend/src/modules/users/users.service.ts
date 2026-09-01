@@ -1,10 +1,11 @@
-import { graph } from "../config/falkordb.js";
+import { graph } from "../../config/falkordb.js";
 import { randomUUID } from "crypto";
 
 export const createUser = async (name: string) => {
   const id = randomUUID();
 
-  const query = `\n      CREATE (u:User {
+  const query = `
+      CREATE (u:User {
           id: $id,
           name: $name
       })
@@ -22,9 +23,15 @@ export const createUser = async (name: string) => {
 };
 
 export const getAllUsers = async () => {
-  return graph.query(`\n    MATCH (u:User)\n    RETURN u\n  `);
+  return graph.query(`
+    MATCH (u:User)
+    RETURN u
+  `);
 };
 
 export const getUserById = async (id: string) => {
-  return graph.query(`\n    MATCH (u:User) WHERE u.id = $id\n    RETURN u\n  `, { params: { id } });
+  return graph.query(`
+    MATCH (u:User) WHERE u.id = $id
+    RETURN u
+  `, { params: { id } });
 };

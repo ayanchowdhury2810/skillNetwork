@@ -1,46 +1,29 @@
 import { graph } from "../../config/falkordb.js";
 
-export const getCandidateProfile = async (userId: string) => {
+export const getUserById = async (userId: string) => {
   return graph.query(
     `
-    MATCH (u:User {id:$userId})-[:HAS_SKILL]->(s:Skill)
-    RETURN u, COLLECT(s.name) AS skills
-  `,
+    MATCH (u:User {id:$userId})
+    RETURN u
+    `,
     { params: { userId } }
   );
 };
 
-export const getActiveJobs = async () => {
-  return graph.query(
-    `
-    MATCH (j:Job)-[:REQUIRES_SKILL]->(s:Skill)
-    WHERE j.status = 'active'
-    RETURN j, COLLECT(s.name) AS requiredSkills
-  `
-  );
-};
-
-export const getAppliedJobIds = async (userId: string) => {
-  return graph.query(
-    `
-    MATCH (u:User {id:$userId})-[:APPLIED_TO]->(j:Job)
-    RETURN j.id AS jobId
-  `,
-    { params: { userId } }
-  );
-};
-
-export const getRecommendedJobsGraph = async (userId: string, limit: number) => {
+export const getRecommendedUsers = async (userId: string) => {
   return graph.query(
     `
     MATCH (u:User {id:$userId})-[:HAS_SKILL]->(s:Skill)
-          <-[:REQUIRES_SKILL]-(j:Job)
-    WHERE j.status = 'active'
-      AND NOT (u)-[:APPLIED_TO]->(j)
-    RETURN j, COUNT(s) AS matchedSkills
-    ORDER BY matchedSkills DESC
-    LIMIT $limit
-  `,
-    { params: { userId, limit } }
+    MATCH (other:User)-[:HAS_SKILL]->(s)
+    WHERE other.id <> $userId
+    RETURN
+      other.id AS userId,
+      other.name AS name,
+      COUNT(DISTINCT s) AS score,
+      COLLECT(DISTINCT s.name) AS commonSkills
+    ORDER BY score DESC
+    LIMIT 10
+    `,
+    { params: { userId } }
   );
 };

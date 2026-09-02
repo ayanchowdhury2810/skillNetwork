@@ -1,17 +1,8 @@
 import { Router } from "express";
-import { getRecommendedJobs } from "./recommendations.controller.js";
-import {
-  authenticate,
-  authorize,
-} from "../../middleware/auth.middleware.js";
+import { getRecommendations } from "./recommendations.controller.js";
 
 const router = Router();
 
-router.get(
-  "/jobs",
-  authenticate,
-  authorize("CANDIDATE"),
-  getRecommendedJobs
-);
+router.get("/:id/recommendations", getRecommendations);
 
 export default router;

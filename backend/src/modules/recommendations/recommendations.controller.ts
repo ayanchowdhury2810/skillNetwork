@@ -1,54 +1,32 @@
 import type { Request, Response } from "express";
 import * as recommendationService from "./recommendations.service.js";
-import { validatePagination } from "./recommendations.validation.js";
-import type { RecommendationResponse } from "./recommendations.types.js";
 
-export const getRecommendedJobs = async (
+export const getRecommendations = async (
   req: Request,
   res: Response
 ) => {
   try {
-    const userId = req.user?.id;
+    const id = req.params.id as string;
 
-    if (!userId) {
-      res.status(401).json({ message: "Not authenticated" });
-      return;
-    }
+    const { found, data } =
+      await recommendationService.getRecommendations(id);
 
-    const { params, errors } = validatePagination(
-      req.query.page,
-      req.query.limit
-    );
-
-    if (errors.length > 0) {
-      res.status(400).json({
-        message: "Validation failed",
-        errors,
+    if (!found) {
+      res.status(404).json({
+        success: false,
+        message: "User not found",
       });
       return;
     }
 
-    const { jobs, total } =
-      await recommendationService.getRecommendations(
-        userId,
-        params.page,
-        params.limit
-      );
-
-    const response: RecommendationResponse = {
+    res.status(200).json({
       success: true,
-      data: jobs,
-      pagination: {
-        page: params.page,
-        limit: params.limit,
-        total,
-      },
-    };
-
-    res.status(200).json(response);
+      data,
+    });
   } catch (error) {
     console.error("Recommendation error:", error);
     res.status(500).json({
+      success: false,
       message: "Failed to get recommendations",
     });
   }

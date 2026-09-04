@@ -13,3 +13,7 @@ export interface Recommendation {
   score: number;
   commonSkills: string[];
 }
+
+export interface Domain {
+  name: string;
+}

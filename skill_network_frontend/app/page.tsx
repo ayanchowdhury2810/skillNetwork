@@ -9,8 +9,7 @@ async function getStats() {
     return {
       totalUsers: users.length,
     };
-  } catch (error) {
-    console.error('Failed to fetch stats:', error);
+  } catch {
     return { totalUsers: 0 };
   }
 }

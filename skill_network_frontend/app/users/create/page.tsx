@@ -7,18 +7,41 @@ import Layout from '../../../components/Layout';
 
 export default function CreateUserPage() {
   const [name, setName] = useState('');
-  const [skill, setSkill] = useState('');
+  const [skills, setSkills] = useState<string[]>([]);
+  const [skillInput, setSkillInput] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { addToast } = useToast();
 
+  const handleAddSkill = () => {
+    const trimmed = skillInput.trim();
+    if (!trimmed) return;
+    if (skills.includes(trimmed)) {
+      addToast('Skill already added', 'error');
+      return;
+    }
+    setSkills([...skills, trimmed]);
+    setSkillInput('');
+  };
+
+  const handleRemoveSkill = (skillToRemove: string) => {
+    setSkills(skills.filter((s) => s !== skillToRemove));
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleAddSkill();
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !skill.trim()) return;
+    if (!name.trim() || skills.length === 0) return;
 
     setLoading(true);
     try {
-      await api.post('/users', { name: name.trim(), skill: skill.trim() });
+      await api.post('/users', { name: name.trim(), skills });
       addToast('User created successfully', 'success');
       router.push('/users');
     } catch (error) {
@@ -50,16 +73,48 @@ export default function CreateUserPage() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Skill
+                Skills
               </label>
-              <input
-                type="text"
-                value={skill}
-                onChange={(e) => setSkill(e.target.value)}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent outline-none"
-                placeholder="Enter a skill (e.g. JavaScript, Python)"
-              />
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={skillInput}
+                  onChange={(e) => setSkillInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent outline-none"
+                  placeholder="Type a skill and press Enter or click Add"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddSkill}
+                  disabled={!skillInput.trim()}
+                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50 font-medium"
+                >
+                  Add
+                </button>
+              </div>
+              {skills.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full"
+                    >
+                      {skill}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveSkill(skill)}
+                        className="ml-1 text-blue-500 hover:text-blue-700 font-bold"
+                      >
+                        &times;
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+              {skills.length === 0 && (
+                <p className="text-xs text-gray-400 mt-2">At least one skill is required</p>
+              )}
             </div>
             <div className="flex justify-end space-x-3">
               <button
@@ -71,7 +126,7 @@ export default function CreateUserPage() {
               </button>
               <button
                 type="submit"
-                disabled={loading || !name.trim() || !skill.trim()}
+                disabled={loading || !name.trim() || skills.length === 0}
                 className="px-4 py-2 bg-[#2563EB] text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
               >
                 {loading ? 'Creating...' : 'Create User'}

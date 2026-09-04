@@ -40,6 +40,19 @@ export default function UserProfilePage() {
     loadUserData();
   };
 
+  const handleDelete = async () => {
+    if (!user) return;
+    if (!confirm(`Delete user "${user.name}"? This cannot be undone.`)) return;
+
+    try {
+      await api.delete(`/users/${userId}`);
+      addToast(`User "${user.name}" deleted`, 'success');
+      router.push('/users');
+    } catch (error) {
+      addToast('Failed to delete user', 'error');
+    }
+  };
+
   if (loading) {
     return (
       <Layout>
@@ -75,8 +88,16 @@ export default function UserProfilePage() {
               <h1 className="text-3xl font-bold text-gray-900">{user.name}</h1>
               <p className="text-gray-500 mt-2">User ID: {user.id}</p>
             </div>
-            <div className="w-16 h-16 bg-[#7C3AED] rounded-full flex items-center justify-center text-white text-2xl font-bold">
-              {user.name.charAt(0)}
+            <div className="flex items-center gap-4">
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-colors"
+              >
+                Delete User
+              </button>
+              <div className="w-16 h-16 bg-[#7C3AED] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                {user.name.charAt(0)}
+              </div>
             </div>
           </div>
         </div>

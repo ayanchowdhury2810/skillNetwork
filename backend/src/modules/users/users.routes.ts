@@ -6,8 +6,12 @@ const router = Router();
 
 router.post("/", userController.createUser);
 router.get("/", userController.getAllUsers);
+router.delete("/", userController.deleteAllUsers);
 router.get("/:id", userController.getUserById);
+router.delete("/:id", userController.deleteUserById);
 router.post("/:id/skills", skillController.addSkill);
 router.get("/:id/skills", skillController.getUserSkills);
+router.post("/:id/interests", userController.addUserInterest);
+router.get("/:id/interests", userController.getUserInterests);
 
 export default router;

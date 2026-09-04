@@ -30,6 +30,10 @@ export default function Sidebar() {
           <span>➕</span>
           <span>Create User</span>
         </Link>
+        <Link href="/domains" className={linkClasses('/domains')}>
+          <span>🌐</span>
+          <span>Domains</span>
+        </Link>
       </nav>
     </aside>
   );

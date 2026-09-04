@@ -4,7 +4,7 @@ export const addSkillToUser = async (
   userId: string,
   skillName: string
 ) => {
-  return graph.query(`
+  const result = await graph.query(`
     MATCH (u:User {id:$userId})
 
     MERGE (s:Skill {
@@ -20,12 +20,13 @@ export const addSkillToUser = async (
       skillName
     }
   });
+  return result.data;
 };
 
 export const getUserSkills = async (
   userId: string
 ) => {
-  return graph.query(`
+  const result = await graph.query(`
     MATCH (u:User {id:$userId})
           -[:HAS_SKILL]->
           (s:Skill)
@@ -36,4 +37,5 @@ export const getUserSkills = async (
       userId
     }
   });
+  return result.data;
 };

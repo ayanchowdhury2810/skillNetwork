@@ -3,9 +3,16 @@ import * as userService from "./users.service.js";
 
 export const createUser = async (req: Request, res: Response) => {
   try {
-    const { name } = req.body;
+    const { name, skill } = req.body;
 
-    const result = await userService.createUser(name);
+    if (!name || !skill) {
+      res.status(400).json({
+        message: "Both name and skill are required",
+      });
+      return;
+    }
+
+    const result = await userService.createUser(name, skill);
 
     res.status(201).json(result);
   } catch (error) {

@@ -7,19 +7,20 @@ import Layout from '../../../components/Layout';
 
 export default function CreateUserPage() {
   const [name, setName] = useState('');
+  const [skill, setSkill] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { addToast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim()) return;
+    if (!name.trim() || !skill.trim()) return;
 
     setLoading(true);
     try {
-      const newUser = await api.post<{ id: string }>('/users', { name: name.trim() });
+      await api.post('/users', { name: name.trim(), skill: skill.trim() });
       addToast('User created successfully', 'success');
-      router.push(`/users/${newUser.id}`);
+      router.push('/users');
     } catch (error) {
       addToast('Failed to create user', 'error');
     } finally {
@@ -47,6 +48,19 @@ export default function CreateUserPage() {
                 autoFocus
               />
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Skill
+              </label>
+              <input
+                type="text"
+                value={skill}
+                onChange={(e) => setSkill(e.target.value)}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent outline-none"
+                placeholder="Enter a skill (e.g. JavaScript, Python)"
+              />
+            </div>
             <div className="flex justify-end space-x-3">
               <button
                 type="button"
@@ -57,7 +71,7 @@ export default function CreateUserPage() {
               </button>
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !name.trim() || !skill.trim()}
                 className="px-4 py-2 bg-[#2563EB] text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
               >
                 {loading ? 'Creating...' : 'Create User'}

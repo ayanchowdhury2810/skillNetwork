@@ -2,15 +2,17 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { api } from '../../lib/api';
-import { User } from '../../lib/types';
 import { useToast } from '../../lib/toast-context';
 import Layout from '../../components/Layout';
 import UserCard from '../../components/UserCard';
 
+interface FalkorUser {
+  u: { properties: { id: string; name: string } };
+  skills: string[];
+}
+
 export default function UsersPage() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
-  const [search, setSearch] = useState('');
+  const [users, setUsers] = useState<FalkorUser[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const { addToast } = useToast();
@@ -19,25 +21,10 @@ export default function UsersPage() {
     loadUsers();
   }, []);
 
-  useEffect(() => {
-    if (search.trim() === '') {
-      setFilteredUsers(users);
-    } else {
-      setFilteredUsers(
-        users.filter(
-          (user) =>
-            user.name.toLowerCase().includes(search.toLowerCase()) ||
-            user.id.toLowerCase().includes(search.toLowerCase())
-        )
-      );
-    }
-  }, [search, users]);
-
   const loadUsers = async () => {
     try {
-      const data = await api.get<User[]>('/users');
+      const data = await api.get<FalkorUser[]>('/users');
       setUsers(data);
-      setFilteredUsers(data);
     } catch (error) {
       addToast('Failed to load users', 'error');
     } finally {
@@ -59,6 +46,7 @@ export default function UsersPage() {
           </button>
         </div>
 
+        {/* Search - commented out for now
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Search User
@@ -71,6 +59,7 @@ export default function UsersPage() {
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent outline-none"
           />
         </div>
+        */}
 
         {loading ? (
           <div className="flex items-center justify-center py-12">
@@ -78,8 +67,8 @@ export default function UsersPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredUsers.map((user) => (
-              <UserCard key={user.id} id={user.id} name={user.name} />
+            {users.map((user) => (
+              <UserCard key={user.u.properties.id} id={user.u.properties.id} name={user.u.properties.name} skills={user.skills} />
             ))}
           </div>
         )}

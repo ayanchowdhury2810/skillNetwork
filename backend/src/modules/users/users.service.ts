@@ -1,7 +1,7 @@
 import { graph } from "../../config/falkordb.js";
 import { randomUUID } from "crypto";
 
-export const createUser = async (name: string) => {
+export const createUser = async (name: string, skill: string) => {
   const id = randomUUID();
 
   const query = `
@@ -9,29 +9,36 @@ export const createUser = async (name: string) => {
           id: $id,
           name: $name
       })
-      RETURN u
+      WITH u
+      MERGE (s:Skill {name: $skill})
+      CREATE (u)-[:HAS_SKILL]->(s)
+      RETURN u, collect(s.name) AS skills
   `;
 
   const result = await graph.query(query, {
     params: {
       id,
       name,
+      skill,
     },
   });
 
-  return result;
+  return result.data;
 };
 
 export const getAllUsers = async () => {
-  return graph.query(`
+  const result = await graph.query(`
     MATCH (u:User)
-    RETURN u
+    OPTIONAL MATCH (u)-[:HAS_SKILL]->(s:Skill)
+    RETURN u, collect(s.name) AS skills
   `);
+  return result.data;
 };
 
 export const getUserById = async (id: string) => {
-  return graph.query(`
+  const result = await graph.query(`
     MATCH (u:User) WHERE u.id = $id
     RETURN u
   `, { params: { id } });
+  return result.data;
 };

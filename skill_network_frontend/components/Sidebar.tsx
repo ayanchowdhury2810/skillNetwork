@@ -18,7 +18,7 @@ export default function Sidebar() {
   return (
     <aside className="w-64 bg-white border-r border-gray-200 min-h-[calc(100vh-64px)] p-4">
       <nav className="space-y-2">
-        <Link href="/users" className={linkClasses('/users')}>
+        <Link href="/" className={linkClasses('/')}>
           <span>🏠</span>
           <span>Home</span>
         </Link>

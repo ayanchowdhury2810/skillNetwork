@@ -34,6 +34,10 @@ export default function Sidebar() {
           <span>🌐</span>
           <span>Domains</span>
         </Link>
+        <Link href="/ai-search" className={linkClasses('/ai-search')}>
+          <span>🤖</span>
+          <span>AI Search</span>
+        </Link>
       </nav>
     </aside>
   );

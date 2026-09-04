@@ -1,0 +1,358 @@
+{
+  "info": {
+    "name": "Skill Network API",
+    "description": "Graph-based developer recommendation platform powered by FalkorDB.\n\nBase URL: http://localhost:5000",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ayan\",\n  \"skills\": [\"React\", \"Node.js\", \"TypeScript\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["users"]
+            }
+          }
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["users"]
+            }
+          }
+        },
+        {
+          "name": "Delete All Users",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["users"]
+            }
+          }
+        },
+        {
+          "name": "Get User By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "paste-user-id-here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete User By ID",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "paste-user-id-here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add Skill To User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"skillName\": \"Node.js\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/:id/skills",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", ":id", "skills"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "paste-user-id-here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get User Skills",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/:id/skills",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", ":id", "skills"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "paste-user-id-here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add User Interest",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"domain\": \"Frontend\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/:id/interests",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", ":id", "interests"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "paste-user-id-here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get User Interests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/:id/interests",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", ":id", "interests"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "paste-user-id-here"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Recommendations",
+      "item": [
+        {
+          "name": "Get User Recommendations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/:id/recommendations",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", ":id", "recommendations"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "paste-user-id-here"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Domains",
+      "item": [
+        {
+          "name": "Create Domain",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Frontend\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/domains",
+              "host": ["{{baseUrl}}"],
+              "path": ["domains"]
+            }
+          }
+        },
+        {
+          "name": "Get All Domains",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/domains",
+              "host": ["{{baseUrl}}"],
+              "path": ["domains"]
+            }
+          }
+        },
+        {
+          "name": "Add Skill To Domain",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"skill\": \"React\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/domains/:domainName/skills",
+              "host": ["{{baseUrl}}"],
+              "path": ["domains", ":domainName", "skills"],
+              "variable": [
+                {
+                  "key": "domainName",
+                  "value": "Frontend"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Domain Skills",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/domains/:domainName/skills",
+              "host": ["{{baseUrl}}"],
+              "path": ["domains", ":domainName", "skills"],
+              "variable": [
+                {
+                  "key": "domainName",
+                  "value": "Frontend"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Skill Relations",
+      "item": [
+        {
+          "name": "Create Skill Relation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceSkill\": \"React\",\n  \"targetSkill\": \"Next.js\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/skills/related",
+              "host": ["{{baseUrl}}"],
+              "path": ["skills", "related"]
+            }
+          }
+        },
+        {
+          "name": "Get Related Skills",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/skills/:skillName/related",
+              "host": ["{{baseUrl}}"],
+              "path": ["skills", ":skillName", "related"],
+              "variable": [
+                {
+                  "key": "skillName",
+                  "value": "React"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

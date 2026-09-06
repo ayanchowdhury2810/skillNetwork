@@ -1,5 +1,5 @@
 import * as repository from "./aiSearch.repository.js";
-import { openai, MODEL } from "./graphrag.js";
+import { getGenerativeModel } from "./graphrag.js";
 import type { SearchResponse } from "./aiSearch.types.js";
 
 const buildGraphContext = async (): Promise<string> => {
@@ -53,19 +53,14 @@ Instructions:
 3. Explain your reasoning based on skills, interests, and relationships.
 4. Do not invent users or data not present in the graph context.`;
 
-  const completion = await openai.chat.completions.create({
-    model: MODEL,
-    messages: [
-      { role: "system", content: SYSTEM_PROMPT },
-      { role: "user", content: userPrompt },
-    ],
-    temperature: 0.7,
-    max_tokens: 1024,
-  });
+  const model = getGenerativeModel();
+
+  const result = await model.generateContent([
+    { text: SYSTEM_PROMPT + "\n\n" + userPrompt },
+  ]);
 
   const answer =
-    completion.choices[0]?.message?.content ||
-    "No answer generated.";
+    result.response.text() || "No answer generated.";
 
   return {
     success: true,

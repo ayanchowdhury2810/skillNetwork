@@ -1,14 +1,17 @@
-import OpenAI from "openai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { config as loadEnv } from "dotenv";
 
 loadEnv();
 
-const { OPENAI_API_KEY, LLM_MODEL } = process.env;
+const { GEMINI_API_KEY, LLM_MODEL } = process.env;
 
-if (!OPENAI_API_KEY) {
-  throw new Error("Missing OPENAI_API_KEY in .env");
+if (!GEMINI_API_KEY) {
+  throw new Error("Missing GEMINI_API_KEY in .env");
 }
 
-export const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
-export const MODEL = LLM_MODEL || "gpt-4o-mini";
+export const MODEL = LLM_MODEL || "gemini-1.5-flash";
+
+export const getGenerativeModel = () =>
+  genAI.getGenerativeModel({ model: MODEL });

@@ -143,6 +143,3 @@ skillNetwork/
 | `[:RELATED_TO]`  | `:Skill`   | `:Skill`   | Bidirectional skill relation|
 | `[:INTERESTED_IN]`| `:User`   | `:Domain`  | User interest in domain     |
 
-## License
-
-ISC

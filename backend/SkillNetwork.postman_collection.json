@@ -8,6 +8,10 @@
     {
       "key": "baseUrl",
       "value": "http://localhost:5000"
+    },
+    {
+      "key": "userId",
+      "value": "seed-ayan"
     }
   ],
   "item": [
@@ -88,7 +92,7 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": "paste-user-id-here"
+                  "value": "{{userId}}"
                 }
               ]
             }
@@ -106,7 +110,7 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": "paste-user-id-here"
+                  "value": "{{userId}}"
                 }
               ]
             }
@@ -133,7 +137,7 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": "paste-user-id-here"
+                  "value": "{{userId}}"
                 }
               ]
             }
@@ -151,7 +155,7 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": "paste-user-id-here"
+                  "value": "{{userId}}"
                 }
               ]
             }
@@ -178,7 +182,7 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": "paste-user-id-here"
+                  "value": "{{userId}}"
                 }
               ]
             }
@@ -196,7 +200,7 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": "paste-user-id-here"
+                  "value": "{{userId}}"
                 }
               ]
             }
@@ -219,7 +223,7 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": "paste-user-id-here"
+                  "value": "{{userId}}"
                 }
               ]
             }
@@ -349,6 +353,74 @@
                   "value": "React"
                 }
               ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "AI Search",
+      "item": [
+        {
+          "name": "Search Developers",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"Who knows React and TypeScript?\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/ai/search",
+              "host": ["{{baseUrl}}"],
+              "path": ["ai", "search"]
+            }
+          }
+        },
+        {
+          "name": "Recommend For Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"Recommend developers for a Next.js and Node.js project\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/ai/search",
+              "host": ["{{baseUrl}}"],
+              "path": ["ai", "search"]
+            }
+          }
+        },
+        {
+          "name": "Related Skills Question",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"Which skills are related to Python and who should I talk to?\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/ai/search",
+              "host": ["{{baseUrl}}"],
+              "path": ["ai", "search"]
             }
           }
         }
